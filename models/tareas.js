@@ -14,6 +14,13 @@ class Tareas {
     constructor() {
         this._listado = {};
     }
+
+    borrarTarea(id = '') {
+        if (this._listado[id]) {
+            delete this._listado[id];
+        }
+    }
+
     cargarTareasFromArray(tareas = []) {
         tareas.forEach(tarea => {
             this._listado[tarea.id] = tarea;
@@ -67,6 +74,29 @@ class Tareas {
     crearTarea(desc = '') {
         const tarea = new Tarea(desc);
         this._listado[tarea.id] = tarea;
+    }
+
+
+    toggleCompletadas(ids = []) {
+
+        ids.forEach(id => {
+
+            const tarea = this._listado[id];
+            if (!tarea.completadoEn) {
+                tarea.completadoEn = new Date().toISOString()
+            }
+
+        });
+
+        this.listadoArr.forEach(tarea => {
+
+            if (!ids.includes(tarea.id)) {
+                this._listado[tarea.id].completadoEn = null;
+            }
+
+        });
+
+
     }
 }
 module.exports = Tareas;
